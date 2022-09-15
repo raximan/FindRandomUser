@@ -1,5 +1,5 @@
 import {useState,useEffect, useRef} from "react";
-import axios from 'axios';
+//import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { datas as randomDatas } from "../randomUserDatas";
 export default function FindRandomUserGame() {
@@ -7,91 +7,61 @@ export default function FindRandomUserGame() {
     const [dataIsLoaded,setdataIsLoaded] = useState(false)
     const [user,setUser] = useState(null)
     const [levelPassed,setlevelPassed]=useState(false)
-    const [round,setRound]=useState(0)
+    const [currentRound,setcurrentRound]=useState(1)
+    const [buttonDatas,setbuttonDatas]=useState(randomDatas.sort(() => 0.5 -Math.random()).slice(0,4))
     const randomBool = useRef(() => Math.random() >= 0.5)
-
-    const userData = window.localStorage.getItem('user1');
-
+    //const userData = window.localStorage.getItem('user1');
     useEffect(() => {
-        const fetchData = async () => {
-          const result = await axios.get('https://randomuser.me/api/') 
-            .catch((error)=> {
-                if (error.response) {
-                // Request made and server responded
-                console.log("response.data"+error.response.data);
-                console.log("response.status"+error.response.status);
-                console.log("response.headers"+error.response.headers);
-                } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error.message', error.message);
-                }
-                });
-                
-          setUser(result.data.results[0]);
+          //setbuttonDatas(randomDatas.sort(() => 0.5 -Math.random()).slice(0,4))
+          setUser(buttonDatas[Math.floor(Math.random() * 4)]);
           randomBool.current=randomBoolean()
           setdataIsLoaded(true)
-        };
-     console.log("Use Effect")
-        fetchData();
+          console.log(user)  
+          console.log(currentRound)                                                                              
       }, [levelPassed]);
 
     let navigator= useNavigate()
+    console.log(randomDatas.sort(() => 0.5 -Math.random()))
 
-    const handleClick =(boolean)=>{
-        if(boolean===true){
-            if(round===4){
+    const handleClick =(button)=>{
+        if(button.imageUrl===user.imageUrl){
+            if(currentRound===5){
+                setbuttonDatas(randomDatas.sort(() => 0.5 -Math.random()).slice(0,4))
                 navigator("/congrats")
             }
             else{
             setdataIsLoaded(false)
             setlevelPassed(!levelPassed)
-            setRound(num=>num+1)
+            setcurrentRound(num=>num+1)
             }   
         }
-        if(boolean===false){
-        navigator("/fail/"+(round+1))
+        else if(button.imageUrl!==user.imageUrl){
+        navigator("/fail/"+(currentRound))
         }
        }
 
     const randomBoolean = () => Math.random() >= 0.5; 
 
-    function RenderButtons(){
-          if(randomBool.current===true){
-              return(<div>
-                <div>
-                <h3>{dataIsLoaded ? user.name.title:"null"} {dataIsLoaded ? user.name.first:"null"} { dataIsLoaded ? user.name.last:"null"} { dataIsLoaded ? user.location.country:"null"} { dataIsLoaded ? user.picture.large:"null"}</h3>
-                <button  onClick={()=>handleClick(true)} disabled={dataIsLoaded ? false : true}>Choose</button> 
+    return <div id="FindRandomUser" >
+            <h1>Round {dataIsLoaded ? currentRound:"null"} {dataIsLoaded ? user.name:"null"} </h1>
+            <img src={dataIsLoaded ? user.imageUrl:"null"} alt="Person" />
+            <div>
+                <h3> {dataIsLoaded ? buttonDatas[0].name:"null"}  { dataIsLoaded ? buttonDatas[0].country:"null"} right </h3>
+                <button  onClick={()=>handleClick(buttonDatas[0])} disabled={dataIsLoaded ? false : true}>Choose</button> 
             </div>
             <div>
-                <h3>{dataIsLoaded ? randomDatas[round].name:"null"} { dataIsLoaded ? randomDatas[round].country:"null"}</h3>
-                <button  onClick={()=>handleClick(false)} disabled={dataIsLoaded ? false : true}>Choose</button> 
+                <h3> {dataIsLoaded ? buttonDatas[1].name:"null"}  { dataIsLoaded ? buttonDatas[1].country:"null"} right </h3>
+                <button  onClick={()=>handleClick(buttonDatas[1])} disabled={dataIsLoaded ? false : true}>Choose</button> 
             </div>
+            <div>
+                <h3> {dataIsLoaded ? buttonDatas[2].name:"null"}  { dataIsLoaded ? buttonDatas[2].country:"null"} right </h3>
+                <button  onClick={()=>handleClick(buttonDatas[2])} disabled={dataIsLoaded ? false : true}>Choose</button> 
             </div>
-              )
-          }
-          else if(randomBool.current===false){
-            return(
-              <div>
-                  <div>
-                      <h3>{dataIsLoaded ? randomDatas[round].name:"null"} { dataIsLoaded ? randomDatas[round].country:"null"}</h3>
-                      <button  onClick={()=>handleClick(false)} disabled={dataIsLoaded ? false : true}>Choose</button> 
-                  </div>
-                  <div>
-                      <h3>{dataIsLoaded ? user.name.title:"null"} {dataIsLoaded ? user.name.first:"null"} { dataIsLoaded ? user.name.last:"null"} { dataIsLoaded ? user.location.country:"null"} { dataIsLoaded ? user.picture.large:"null"}</h3>
-                      <button  onClick={()=>handleClick(true)} disabled={dataIsLoaded ? false : true}>Choose</button> 
-                  </div>
-              </div>
-            )
-          }
-    }
-
-    return <div id="FindRandomUser" >
-            <h1>Round {dataIsLoaded ? round+1:"null"}</h1>
-            <img src={dataIsLoaded ? user.picture.large:"null"} alt="Person" />
-            <RenderButtons/>
-          <h1>{JSON.parse(userData).name}</h1>
-          <button onClick={()=>navigator("/")}>Return Home</button>
-
+            <div>
+                <h3> {dataIsLoaded ? buttonDatas[3].name:"null"}  { dataIsLoaded ? buttonDatas[3].country:"null"} right </h3>
+                <button  onClick={()=>handleClick(buttonDatas[3])} disabled={dataIsLoaded ? false : true}>Choose</button> 
+            </div>
+          <button style={{margin:"150px"}} onClick={()=>navigator("/")}>Return Home</button>
          </div>
   
 }

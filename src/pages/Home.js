@@ -6,17 +6,17 @@ export default function Home(){
 
 
 return<div>
-            <label>Name: 
+            {/* <label>Name: 
             <input
                 type="text"
                 id="message"
                 name="message"
                 onChange={(e)=>setUserName(e.target.value)}
                 value={userName}
-            /></label>
+            /></label> */}
             <h1>Welcome {userName}</h1>
             
             <button onClick={()=>navigate("/game")}>Press to Start</button>
-            <button onClick={()=>navigate("/viewscore/"+userName)}>Go directly to the scoreboard</button>
+            {/* <button onClick={()=>navigate("/viewscore/"+userName)}>Go directly to the scoreboard</button> */}
     </div>
 }
