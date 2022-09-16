@@ -1,5 +1,5 @@
 import FindRandomUserGame from './pages/FindRandomUserGame'
-import{BrowserRouter,Routes,Route,Switch} from "react-router-dom";
+import{BrowserRouter,Routes,Route} from "react-router-dom";
 import Home from './pages/Home';
 import Fail from './pages/Fail';
 import Congrats from './pages/Congrats';
