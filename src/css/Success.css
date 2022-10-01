@@ -13,9 +13,9 @@
     padding: 2% 28% !important ;
 }
 .Successbutton{
-    margin-top: 6%;
-    margin-bottom: 10%;
-    margin-left: 45%;
+    margin-top: 6% !important ;
+    margin-bottom: 10% !important;
+    margin-left: 45% !important;
     background-color:#03A678 !important;
     color: #502000 !important;
 }
