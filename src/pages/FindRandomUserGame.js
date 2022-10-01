@@ -49,10 +49,11 @@ export default function FindRandomUserGame() {
 
 
     return <div  id="FindRandomUser" >
-
+            <div id="Head">   
             <Typography variant="h5" className="centerinFindRandomUser" id="Round">ROUND: {dataIsLoaded ? currentRound:"null"}</Typography>
             <img className="centerinFindRandomUser" src={dataIsLoaded ? user.imageUrl:"null"}  alt="Person" />
-            <Grid container spacing={2}>
+            </div>
+            <Grid container spacing={4}>
             <Grid className="GridItem" item xs={6}>
                 
                     <Typography className="GridItemText"  > {dataIsLoaded ? ButtonDatas[0].name:"null"} - { dataIsLoaded ? ButtonDatas[0].country:"null"}  </Typography>
